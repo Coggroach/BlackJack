@@ -1,8 +1,11 @@
 package com.coggroach.Test;
 
 import com.coggroach.blackjack.BlackJackHand;
+import com.coggroach.lib.Card;
 import com.coggroach.lib.Deck;
 import com.coggroach.lib.Hand;
+
+import java.util.Iterator;
 
 /**
  * Created by richarja on 10/10/14.
@@ -22,10 +25,14 @@ public class TestBlackJack
         deck.draw(hand);
         deck.draw(hand);
 
-        System.out.println(hand.getCards().get(0).getName());
+        Iterator<Card> iCard = hand.getCards().iterator();
+
+        while(iCard.hasNext())
+        {
+            Card c = iCard.next();
+            System.out.println(c.getName());
+        }
+        
         System.out.println(hand.getTotal());
-
-
-
     }
 }
