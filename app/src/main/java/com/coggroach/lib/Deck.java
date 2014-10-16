@@ -26,22 +26,31 @@ public class Deck extends BaseCardStorable
 	
 	public Card draw()
 	{
-		Card c = this.getCards().get(0);		
-		this.getCards().remove(0);		
-		return c;
+        if(hasCardsInDeck())
+        {
+            Card c = this.getCards().get(this.getCards().size() - 1);
+            this.getCards().remove(this.getCards().size() - 1);
+            return c;
+        }
+        return null;
 	}
+
+    public boolean hasCardsInDeck()
+    {
+        return this.getCards().size() >= 1;
+    }
 	
-	public void draw(Hand hand)
+	public void draw(BaseCardStorable hand)
 	{	
-		if(hand.canDraw())
+		if(hasCardsInDeck())
 		{
 			hand.addCard(this.draw());
 		}
 	}
 	
-	public void addToDeckFrom(Hand hand)
+	public void addToDeckFrom(BaseCardStorable hand)
 	{
 		this.getCards().addAll(hand.getCards());
-		hand.emptyHand();
+		hand.getCards().clear();
 	}
 }

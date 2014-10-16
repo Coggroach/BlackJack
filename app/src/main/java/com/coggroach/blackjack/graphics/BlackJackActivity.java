@@ -1,34 +1,61 @@
 package com.coggroach.blackjack.graphics;
 
 import android.app.Activity;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RadioButton;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
-import com.coggroach.blackjack.R;
+import com.coggroach.blackjack.BlackJackHand;
 
-import com.coggroach.blackjack.R;
+import com.coggroach.lib.Deck;
 
 
 public class BlackJackActivity extends Activity
 {
     BlackJackView view;
-<<<<<<< HEAD:app/src/main/java/com/coggroach/blackjack/graphics/BlackJackActivity.java
+    Deck deck;
+    BlackJackHand hand;
 
-=======
->>>>>>> 0db0a99e027229289c64039225ed37c9eca03a28:app/src/main/java/com/coggroach/blackjack/graphics/BlackJackActivity.java
+    View.OnTouchListener listener = new View.OnTouchListener()
+    {
+        @Override
+        public boolean onTouch(View v, MotionEvent event)
+        {
+            switch(view.getBoundBitmap(new Point((int) event.getX(),(int) event.getY())).getId())
+            {
+                case 0:
+                    view.drawCard();
+                    break;
+
+                case 1:
+                    view.drawCard(deck.draw());
+                    break;
+            }
+            return false;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
         view = new BlackJackView(this);
-<<<<<<< HEAD:app/src/main/java/com/coggroach/blackjack/graphics/BlackJackActivity.java
-=======
+        deck = new Deck();
+        hand = new BlackJackHand();
+        deck.shuffle();
 
->>>>>>> 0db0a99e027229289c64039225ed37c9eca03a28:app/src/main/java/com/coggroach/blackjack/graphics/BlackJackActivity.java
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(view);//R.layout.activity_black_jack);
+
+        view.setOnTouchListener(this.listener);
     }
 
 

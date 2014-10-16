@@ -1,142 +1,114 @@
 package com.coggroach.blackjack.graphics;
 
 import android.content.Context;
-<<<<<<< HEAD
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Rect;
-import android.os.Environment;
-import android.view.MotionEvent;
+import android.graphics.Point;
 import android.view.View;
 
+import com.coggroach.lib.BaseCardStorable;
+import com.coggroach.lib.Card;
 import com.coggroach.lib.EnumCardSuits;
 import com.coggroach.lib.EnumCardValues;
+import com.coggroach.lib.assets.AssetHelper;
+import com.coggroach.lib.assets.BoundBitmap;
+import com.coggroach.lib.assets.CardGraphics;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
-=======
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.view.View;
-import android.widget.RelativeLayout;
-
-import java.io.IOException;
->>>>>>> 0db0a99e027229289c64039225ed37c9eca03a28
 
 /**
  * Created by richarja on 10/10/14.
  */
 public class BlackJackView extends View
 {
-<<<<<<< HEAD
-    private float xTouch, yTouch;
-    private boolean isTouch;
+    private CardGraphics cardGraphics;
 
-    private Bitmap background;
-    private ArrayList<Bitmap> cardSheet;
+    private Point pTouch;
 
-    private Bitmap master;
-=======
-    Bitmap background;
->>>>>>> 0db0a99e027229289c64039225ed37c9eca03a28
+    private BoundBitmap background;
+
+    private BoundBitmap button;
+    private Point buttonPoint;
+
+    private Point cardPoint;
+    private int randCard;
 
     public BlackJackView(Context c)
     {
         super(c);
-<<<<<<< HEAD
+        this.cardGraphics = new CardGraphics(c);
 
-        this.xTouch = 0;
-        this.yTouch = 0;
-        this.isTouch = false;
-
-        this.background = BlackJackAssetHelper.getBitmap(c, "Background.jpg");
-        this.cardSheet = new ArrayList<Bitmap>();
-
-        for(EnumCardSuits suit : EnumCardSuits.values())
-        {
-            for(EnumCardValues value : EnumCardValues.values())
-            {
-                cardSheet.add( BlackJackAssetHelper.getBitmap(c, suit.getName().toString() + String.valueOf(value.getId() + 1) + ".png") );
-            }
-        }
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
+    protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld)
     {
-        super.onTouchEvent(event);
+        super.onSizeChanged(xNew, yNew, xOld, yOld);
 
-        this.xTouch = event.getX();
-        this.yTouch = event.getY();
+        this.cardGraphics.setMaxWidth(this.getWidth());
+        this.cardGraphics.setMaxHeight(this.getHeight());
+        this.cardGraphics.loadBitmaps();
 
-        switch(event.getAction())
+        this.pTouch = new Point();
+        this.buttonPoint = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.75F));
+        this.cardPoint = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.1F));
+        this.randCard = 0;
+
+        this.background = new BoundBitmap(0, Bitmap.createScaledBitmap(cardGraphics.getAssetHelper().getBitmap("Background.jpg"), this.getWidth(), this.getHeight(), false), new Point(0, 0));
+        this.button = new BoundBitmap(1, cardGraphics.getAssetHelper().getBitmap("Button.png"), this.buttonPoint);
+    }
+
+    public BoundBitmap getBoundBitmap(Point p)
+    {
+        this.pTouch.set((int) p.x,(int) p.y);
+
+        if(this.button.contains(p))
+            return this.button;
+
+
+        return this.background;
+    }
+
+    public void drawCard(Card c)
+    {
+        if(c != null)
         {
-            case MotionEvent.ACTION_DOWN:
-                //this.isTouch = true;
-                this.invalidate();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                //this.isTouch = true;
-                this.invalidate();
-                break;
-            case MotionEvent.ACTION_UP:
-                //this.isTouch = false;
-                break;
-            default:
+            this.randCard = c.getIndex();
+            this.invalidate();
         }
+    }
 
-        return true;
+    public void drawCard()
+    {
+        this.randCard = cardGraphics.CARD_BACK_INDEX;
+        this.invalidate();
     }
 
     public void onDrawBackground(Canvas c)
     {
-        c.drawBitmap(Bitmap.createScaledBitmap(this.background, this.getRight(), this.getBottom(), false), 0, 0, null);
+        if(c != null && this.background.getBitmap() != null)
+            c.drawBitmap(this.background.getBitmap(), 0, 0, null);
     }
 
     public void onDrawCard(Canvas c)
     {
-        //c.drawBitmap(Bitmap.createScaledBitmap(Bitmap.createBitmap(this.cardSheet, 0, 0, 68, 96), 3*68, 3*96, false), xTouch, yTouch, null);
-        Bitmap card = this.cardSheet.get(new Random().nextInt(this.cardSheet.size()));
+        Bitmap card = cardGraphics.getCardSheet().get(randCard);
         if(card != null)
-            c.drawBitmap(card, xTouch, yTouch, null);
+            c.drawBitmap(card, this.cardPoint.x, this.cardPoint.y, null);
+    }
+
+    public void onDrawButton(Canvas c)
+    {
+        c.drawBitmap(this.button.getBitmap(), this.buttonPoint.x, this.buttonPoint.y, null);
     }
 
 
-
-=======
-        try
-        {
-            background = BitmapFactory.decodeStream(c.getResources().getAssets().open("background.png"));
-        }
-        catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
-
-    }
-
->>>>>>> 0db0a99e027229289c64039225ed37c9eca03a28
     @Override
     public void onDraw(Canvas c)
     {
         super.onDraw(c);
-<<<<<<< HEAD
         this.onDrawBackground(c);
         this.onDrawCard(c);
-        //c.drawBitmap(background, this.getWidth()/2 - background.getWidth()/2, this.getHeight()/2 - background.getHeight()/2, null);
-        //c.drawBitmap(scaleBitmap(), 0, 0, null);
+        this.onDrawButton(c);
     }
-=======
-        c.drawBitmap(background, 0, 0, null);
-    }
-
-
->>>>>>> 0db0a99e027229289c64039225ed37c9eca03a28
 }

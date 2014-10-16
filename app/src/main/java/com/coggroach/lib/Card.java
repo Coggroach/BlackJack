@@ -30,4 +30,9 @@ public class Card
 	{
 		return this.value;
 	}
+
+    public int getIndex()
+    {
+        return suit.getId()*EnumCardValues.values().length + value.getId();
+    }
 }

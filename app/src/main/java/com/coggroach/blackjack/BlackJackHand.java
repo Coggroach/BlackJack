@@ -1,21 +1,21 @@
 package com.coggroach.blackjack;
 
+import com.coggroach.lib.BaseCardStorable;
 import com.coggroach.lib.Card;
 import com.coggroach.lib.EnumCardValues;
-import com.coggroach.lib.Hand;
 
 import java.util.Iterator;
 
 /**
  * Created by richarja on 10/10/14.
  */
-public class BlackJackHand extends Hand
+public class BlackJackHand extends BaseCardStorable
 {
     int total;
 
     public BlackJackHand()
     {
-        super(0, false);
+        super();
         total = 0;
     }
 

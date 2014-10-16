@@ -21,15 +21,6 @@ public class BlackJackGame
     public void initDeal()
     {
         deck.shuffle();
-        player.draw(deck);
-        dealer.draw(deck);
-        player.draw(deck);
-        dealer.draw(deck);
-    }
-
-    public void hit(BlackJackHand hand)
-    {
-        hand.draw(deck);
     }
 
 }
