@@ -1,20 +1,22 @@
-package com.coggroach.blackjack;
+package com.coggroach.blackjack.graphics;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.coggroach.blackjack.R;
+
 
 public class BlackJackActivity extends Activity
 {
-    ViewBlackJack view;
+    BlackJackView view;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        view = new ViewBlackJack(this);
+        view = new BlackJackView(this);
 
         setContentView(view);//R.layout.activity_black_jack);
     }
@@ -24,7 +26,7 @@ public class BlackJackActivity extends Activity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.black_jack, menu);
+        //getMenuInflater().inflate(R.menu.black_jack, menu);
         return true;
     }
 
@@ -34,11 +36,11 @@ public class BlackJackActivity extends Activity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
+        //int id = item.getItemId();
+        //if (id == R.id.action_settings)
+        //{
+         //   return true;
+        //}
         return super.onOptionsItemSelected(item);
     }
 }
