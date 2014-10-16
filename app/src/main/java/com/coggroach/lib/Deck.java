@@ -33,7 +33,7 @@ public class Deck extends BaseCardStorable
 	
 	public void draw(Hand hand)
 	{	
-		if(!hand.hasMaxCards())
+		if(hand.canDraw())
 		{
 			hand.addCard(this.draw());
 		}

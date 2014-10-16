@@ -1,6 +1,7 @@
 package com.coggroach.blackjack;
 
 import com.coggroach.lib.Card;
+import com.coggroach.lib.EnumCardValues;
 import com.coggroach.lib.Hand;
 
 import java.util.Iterator;
@@ -14,7 +15,7 @@ public class BlackJackHand extends Hand
 
     public BlackJackHand()
     {
-        super(5);
+        super(0, false);
         total = 0;
     }
 
@@ -26,11 +27,21 @@ public class BlackJackHand extends Hand
         while(HandIterator.hasNext())
         {
             Card card = HandIterator.next();
-            total += BlackJackRules.values(card);
+            total += BlackJackRuleBook.values(card);
         }
 
         return total;
     }
 
-
+    public boolean hasAces()
+    {
+        Iterator<Card> HandIterator = this.getCards().iterator();
+        while(HandIterator.hasNext())
+        {
+            Card card = HandIterator.next();
+            if(card.getValue() == EnumCardValues.ACE)
+                return true;
+        }
+        return false;
+    }
 }

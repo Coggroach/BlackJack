@@ -32,7 +32,7 @@ public class TestBlackJack
             Card c = iCard.next();
             System.out.println(c.getName());
         }
-        
+
         System.out.println(hand.getTotal());
     }
 }

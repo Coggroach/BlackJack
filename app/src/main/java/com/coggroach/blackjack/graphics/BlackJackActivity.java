@@ -1,21 +1,24 @@
-package com.coggroach.blackjack;
+package com.coggroach.blackjack.graphics;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RadioButton;
+
+import com.coggroach.blackjack.R;
 
 
 public class BlackJackActivity extends Activity
 {
-    ViewBlackJack view;
+    BlackJackView view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        view = new ViewBlackJack(this);
-
+        view = new BlackJackView(this);
         setContentView(view);//R.layout.activity_black_jack);
     }
 
