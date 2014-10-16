@@ -1,6 +1,7 @@
 package com.coggroach.blackjack.graphics;
 
 import android.content.Context;
+<<<<<<< HEAD
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,12 +20,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+=======
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.view.View;
+import android.widget.RelativeLayout;
+
+import java.io.IOException;
+>>>>>>> 0db0a99e027229289c64039225ed37c9eca03a28
 
 /**
  * Created by richarja on 10/10/14.
  */
 public class BlackJackView extends View
 {
+<<<<<<< HEAD
     private float xTouch, yTouch;
     private boolean isTouch;
 
@@ -32,10 +43,14 @@ public class BlackJackView extends View
     private ArrayList<Bitmap> cardSheet;
 
     private Bitmap master;
+=======
+    Bitmap background;
+>>>>>>> 0db0a99e027229289c64039225ed37c9eca03a28
 
     public BlackJackView(Context c)
     {
         super(c);
+<<<<<<< HEAD
 
         this.xTouch = 0;
         this.yTouch = 0;
@@ -95,13 +110,33 @@ public class BlackJackView extends View
 
 
 
+=======
+        try
+        {
+            background = BitmapFactory.decodeStream(c.getResources().getAssets().open("background.png"));
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+
+    }
+
+>>>>>>> 0db0a99e027229289c64039225ed37c9eca03a28
     @Override
     public void onDraw(Canvas c)
     {
         super.onDraw(c);
+<<<<<<< HEAD
         this.onDrawBackground(c);
         this.onDrawCard(c);
         //c.drawBitmap(background, this.getWidth()/2 - background.getWidth()/2, this.getHeight()/2 - background.getHeight()/2, null);
         //c.drawBitmap(scaleBitmap(), 0, 0, null);
     }
+=======
+        c.drawBitmap(background, 0, 0, null);
+    }
+
+
+>>>>>>> 0db0a99e027229289c64039225ed37c9eca03a28
 }
