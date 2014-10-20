@@ -13,8 +13,10 @@ import com.coggroach.lib.EnumCardValues;
 import com.coggroach.lib.assets.AssetHelper;
 import com.coggroach.lib.assets.BoundBitmap;
 import com.coggroach.lib.assets.CardGraphics;
+import com.coggroach.lib.assets.Vector;
 
 import java.util.ArrayList;
+import java.util.concurrent.CancellationException;
 
 /**
  * Created by richarja on 10/10/14.
@@ -23,15 +25,13 @@ public class BlackJackView extends View
 {
     private CardGraphics cardGraphics;
 
-    private Point pTouch;
-
     private BoundBitmap background;
+    private BoundBitmap btnHit;
+    private BoundBitmap btnStick;
+    private BoundBitmap lblTitle;
 
-    private BoundBitmap button;
-    private Point buttonPoint;
-
-    private Point cardPoint;
-    private int randCard;
+    private Vector cardVector;
+    private ArrayList<Integer> cardIndexList;
 
     public BlackJackView(Context c)
     {
@@ -49,66 +49,80 @@ public class BlackJackView extends View
         this.cardGraphics.setMaxHeight(this.getHeight());
         this.cardGraphics.loadBitmaps();
 
-        this.pTouch = new Point();
-        this.buttonPoint = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.75F));
-        this.cardPoint = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.1F));
-        this.randCard = 0;
+        cardIndexList = new ArrayList<Integer>();
 
-        this.background = new BoundBitmap(0, Bitmap.createScaledBitmap(cardGraphics.getAssetHelper().getBitmap("Background.jpg"), this.getWidth(), this.getHeight(), false), new Point(0, 0));
-        this.button = new BoundBitmap(1, cardGraphics.getAssetHelper().getBitmap("Button.png"), this.buttonPoint);
+        Point btnPoint = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.75F));
+        Point btnPoint2 = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.85F));
+        Point lblPoint = new Point(cardGraphics.getWidthFraction(0.1F), 0);
+        this.cardVector = new Vector(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.1F));
+
+        this.background = new BoundBitmap(Bitmap.createScaledBitmap(cardGraphics.getAssetHelper().getBitmap("Background.png"), this.getWidth(), this.getHeight(), false), new Point(0, 0));
+        this.btnHit = new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("ButtonHit.png"), btnPoint);
+        this.btnStick = new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("ButtonStick.png"), btnPoint2);
+        this.lblTitle = new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("Title.png"), lblPoint);
     }
 
-    public BoundBitmap getBoundBitmap(Point p)
+    public int getViewId(Point p)
     {
-        this.pTouch.set((int) p.x,(int) p.y);
+        if(this.btnHit.contains(p))
+            return 1;
 
-        if(this.button.contains(p))
-            return this.button;
+        if(this.btnStick.contains(p))
+            return 2;
 
-
-        return this.background;
+        return 0;
     }
 
-    public void drawCard(Card c)
+    public void setDrawHand(BaseCardStorable hand)
     {
-        if(c != null)
+        if(hand != null && this.cardIndexList != null)
         {
-            this.randCard = c.getIndex();
+            this.cardIndexList.clear();
+            for(int i = 0; i < hand.getCards().size(); i++)
+            {
+                this.cardIndexList.add(Integer.valueOf(hand.getCards().get(i).getIndex()));
+            }
             this.invalidate();
         }
     }
 
-    public void drawCard()
-    {
-        this.randCard = cardGraphics.CARD_BACK_INDEX;
-        this.invalidate();
-    }
-
     public void onDrawBackground(Canvas c)
     {
-        if(c != null && this.background.getBitmap() != null)
+        if(c != null)// && this.background.getBitmap() != null)
             c.drawBitmap(this.background.getBitmap(), 0, 0, null);
     }
 
     public void onDrawCard(Canvas c)
     {
-        Bitmap card = cardGraphics.getCardSheet().get(randCard);
-        if(card != null)
-            c.drawBitmap(card, this.cardPoint.x, this.cardPoint.y, null);
+        Vector v = this.cardVector;
+
+        for(int i = 0; i < this.cardIndexList.size(); i++)
+        {
+            Bitmap card = this.cardGraphics.getCardSheet().get(this.cardIndexList.get(i).intValue());
+            c.drawBitmap(card, v.getXVector(), v.getYVector(), null);
+
+            v = v.add(new Vector(120, 0));
+        }
     }
 
     public void onDrawButton(Canvas c)
     {
-        c.drawBitmap(this.button.getBitmap(), this.buttonPoint.x, this.buttonPoint.y, null);
+        this.btnHit.draw(c);
+        this.btnStick.draw(c);
     }
 
+    public void onDrawTitle(Canvas c)
+    {
+        this.lblTitle.draw(c);
+    }
 
     @Override
     public void onDraw(Canvas c)
     {
         super.onDraw(c);
         this.onDrawBackground(c);
-        this.onDrawCard(c);
+        this.onDrawTitle(c);
         this.onDrawButton(c);
+        this.onDrawCard(c);
     }
 }

@@ -28,9 +28,11 @@ public class BlackJackGame
         deck.draw(dealer);
         deck.draw(player);
         deck.draw(player);
+    }
 
-        //
-
+    public BlackJackHand getPlayer()
+    {
+        return this.player;
     }
 
     public void onHit()
@@ -64,16 +66,23 @@ public class BlackJackGame
 
     public int onFinish()
     {
-        if(player.getTotal() < dealer.getTotal())
-            return BlackJackCase.CASE_LOSE;
+        if(player.getTotal() > dealer.getTotal())
+            return BlackJackCase.CASE_WIN;
 
-        if (player.getTotal()==dealer.getTotal())
+        if (player.getTotal() == dealer.getTotal())
             return BlackJackCase.CASE_DRAW;
 
-        if (player.getTotal()>dealer.getTotal()&&player.getTotal()==21)
+        if (player.getTotal() > dealer.getTotal() && player.getTotal() == 21)
             return BlackJackCase.CASE_BLACKJACK;
 
-        return BlackJackCase.CASE_WIN;
+        return BlackJackCase.CASE_LOSE;
+    }
+
+    public void onNewGame()
+    {
+        deck.addToDeckFrom(player);
+        deck.addToDeckFrom(dealer);
+        deck.shuffle();
     }
 
     public boolean Bust(BlackJackHand hand)

@@ -27,30 +27,33 @@ public class BlackJackActivity extends Activity
         @Override
         public boolean onTouch(View v, MotionEvent event)
         {
-            switch(view.getBoundBitmap(new Point((int) event.getX(),(int) event.getY())).getId())
+            switch(view.getViewId(new Point((int) event.getX(),(int) event.getY())))
             {
                 case 0:
-                    view.drawCard();
+                    view.setDrawHand(game.getPlayer());
                     break;
 
                 case 1:
                     game.onHit();
+                    view.setDrawHand(game.getPlayer());
                     break;
 
                 case 2:
-                    EvaluateStatus (game.onStick());
+                    evaluateStatus(game.onStick());
                     break;
             }
             return false;
         }
     };
 
-    protected void EvaluateStatus (int CaseStatus)
+    protected void evaluateStatus(int CaseStatus)
     {
         switch(CaseStatus)
         {
             case BlackJackCase.CASE_HAND_BUST:
                 game.onFinish();
+                game.onNewGame();
+                view.setDrawHand(game.getPlayer());
                 break;
 
             case BlackJackCase.CASE_HAND_UNDER:
@@ -58,6 +61,8 @@ public class BlackJackActivity extends Activity
 
             case BlackJackCase.CASE_HAND_FINISH:
                 //game.DealerPlay();
+                game.onNewGame();
+                view.setDrawHand(game.getPlayer());
                 break;
         }
     }
@@ -72,12 +77,10 @@ public class BlackJackActivity extends Activity
         game = new BlackJackGame();
         game.initDeal();
 
-        //draw to view
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(view);//R.layout.activity_black_jack);
+        setContentView(view);
 
         view.setOnTouchListener(this.listener);
     }

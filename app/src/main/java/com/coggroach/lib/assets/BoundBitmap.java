@@ -1,6 +1,7 @@
 package com.coggroach.lib.assets;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
 
 /**
@@ -10,13 +11,11 @@ public class BoundBitmap
 {
     private Bitmap bitmap;
     private Point point;
-    private int id;
 
-    public BoundBitmap(int id, Bitmap b, Point p)
+    public BoundBitmap(Bitmap b, Point p)
     {
         this.bitmap = b;
         this.point = p;
-        this.id = id;
     }
 
     public boolean contains(Point p)
@@ -28,11 +27,6 @@ public class BoundBitmap
         return false;
     }
 
-    public int getId()
-    {
-        return this.id;
-    }
-
     public Bitmap getBitmap()
     {
         return this.bitmap;
@@ -41,5 +35,15 @@ public class BoundBitmap
     public void setPoint(Point p)
     {
         this.point = p;
+    }
+
+    public Point getPoint()
+    {
+        return this.point;
+    }
+
+    public void draw(Canvas c)
+    {
+        c.drawBitmap(bitmap, point.x, point.y, null);
     }
 }
