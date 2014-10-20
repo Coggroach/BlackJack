@@ -143,7 +143,7 @@ public class BlackJackView extends View
 
     public void onDrawWord(Canvas c)
     {
-        if(this.wordIndex > 0)
+        if(this.wordIndex >= 0)
             this.wordSheet.get(this.wordIndex).draw(c);
     }
 
