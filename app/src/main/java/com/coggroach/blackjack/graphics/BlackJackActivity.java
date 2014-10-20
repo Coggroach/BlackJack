@@ -34,7 +34,8 @@ public class BlackJackActivity extends Activity
                     break;
 
                 case 1:
-                    game.onHit();
+                    if(!game.onHit())
+                        view.setWordIndex(0);
                     view.setDrawHand(game.getPlayer());
                     break;
 
@@ -51,18 +52,24 @@ public class BlackJackActivity extends Activity
         switch(CaseStatus)
         {
             case BlackJackCase.CASE_HAND_BUST:
-                game.onFinish();
+                //game.onFinish();
+                view.setWordIndex(0);
                 game.onNewGame();
                 view.setDrawHand(game.getPlayer());
                 break;
 
             case BlackJackCase.CASE_HAND_UNDER:
+                view.setWordIndex(1);
                 break;
 
             case BlackJackCase.CASE_HAND_FINISH:
                 //game.DealerPlay();
+                view.setWordIndex(2);
                 game.onNewGame();
                 view.setDrawHand(game.getPlayer());
+                break;
+            default:
+                //view.setWordIndex(-1);
                 break;
         }
     }

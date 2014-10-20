@@ -35,9 +35,9 @@ public class BlackJackGame
         return this.player;
     }
 
-    public void onHit()
+    public boolean onHit()
     {
-        onHit(player);
+        return onHit(player);
     }
 
     public int onStick()
@@ -45,12 +45,14 @@ public class BlackJackGame
         return this.onStick(player);
     }
 
-    public void onHit(BlackJackHand hand)
+    public boolean onHit(BlackJackHand hand)
     {
         if(hand.getTotal() < 21)
         {
             deck.draw(hand);
+            return true;
         }
+        return false;
     }
 
     public int onStick(BlackJackHand hand)
@@ -58,10 +60,11 @@ public class BlackJackGame
         if (hand.getTotal() < 16)
             return BlackJackCase.CASE_HAND_UNDER;
 
-        if (Bust(hand))
+        else if(isBust(hand))
             return BlackJackCase.CASE_HAND_BUST;
 
-        return BlackJackCase.CASE_HAND_FINISH;
+        else
+            return BlackJackCase.CASE_HAND_FINISH;
     }
 
     public int onFinish()
@@ -85,9 +88,9 @@ public class BlackJackGame
         deck.shuffle();
     }
 
-    public boolean Bust(BlackJackHand hand)
+    public boolean isBust(BlackJackHand hand)
     {
-        if (hand.getTotal() <= 21)
+        if(hand.getTotal() <= 21)
             return false;
         else
             return true;

@@ -15,6 +15,7 @@ import com.coggroach.lib.assets.BoundBitmap;
 import com.coggroach.lib.assets.CardGraphics;
 import com.coggroach.lib.assets.Vector;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.CancellationException;
 
@@ -29,6 +30,9 @@ public class BlackJackView extends View
     private BoundBitmap btnHit;
     private BoundBitmap btnStick;
     private BoundBitmap lblTitle;
+
+    private ArrayList<BoundBitmap> wordSheet;
+    private int wordIndex;
 
     private Vector cardVector;
     private ArrayList<Integer> cardIndexList;
@@ -49,7 +53,9 @@ public class BlackJackView extends View
         this.cardGraphics.setMaxHeight(this.getHeight());
         this.cardGraphics.loadBitmaps();
 
-        cardIndexList = new ArrayList<Integer>();
+        this.cardIndexList = new ArrayList<Integer>();
+        this.wordSheet = new ArrayList<BoundBitmap>();
+        this.wordIndex = -1;
 
         Point btnPoint = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.75F));
         Point btnPoint2 = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.85F));
@@ -60,6 +66,16 @@ public class BlackJackView extends View
         this.btnHit = new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("ButtonHit.png"), btnPoint);
         this.btnStick = new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("ButtonStick.png"), btnPoint2);
         this.lblTitle = new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("Title.png"), lblPoint);
+
+        Point wPoint = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.5F));
+
+        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordBust.png"), wPoint));
+        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordUnder.png"), wPoint));
+        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordFinish.png"), wPoint));
+
+        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordLose.png"), wPoint));
+        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordDraw.png"), wPoint));
+        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordWin.png"), wPoint));
     }
 
     public int getViewId(Point p)
@@ -82,6 +98,15 @@ public class BlackJackView extends View
             {
                 this.cardIndexList.add(Integer.valueOf(hand.getCards().get(i).getIndex()));
             }
+            this.invalidate();
+        }
+    }
+
+    public void setWordIndex(int i)
+    {
+        if(this.wordSheet.size() > i)
+        {
+            this.wordIndex = i;
             this.invalidate();
         }
     }
@@ -116,6 +141,12 @@ public class BlackJackView extends View
         this.lblTitle.draw(c);
     }
 
+    public void onDrawWord(Canvas c)
+    {
+        if(this.wordIndex > 0)
+            this.wordSheet.get(this.wordIndex).draw(c);
+    }
+
     @Override
     public void onDraw(Canvas c)
     {
@@ -124,5 +155,6 @@ public class BlackJackView extends View
         this.onDrawTitle(c);
         this.onDrawButton(c);
         this.onDrawCard(c);
+        this.onDrawWord(c);
     }
 }

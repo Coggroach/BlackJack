@@ -27,21 +27,13 @@ public class BlackJackHand extends BaseCardStorable
         while(HandIterator.hasNext())
         {
             Card card = HandIterator.next();
-            total += BlackJackRuleBook.values(card);
+
+            if(card.getValue() == EnumCardValues.ACE && total + 11 > 21)
+                total += BlackJackRuleBook.values(card, true);
+            else
+                total += BlackJackRuleBook.values(card);
         }
 
         return total;
-    }
-
-    public boolean hasAces()
-    {
-        Iterator<Card> HandIterator = this.getCards().iterator();
-        while(HandIterator.hasNext())
-        {
-            Card card = HandIterator.next();
-            if(card.getValue() == EnumCardValues.ACE)
-                return true;
-        }
-        return false;
     }
 }
