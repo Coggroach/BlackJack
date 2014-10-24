@@ -55,6 +55,17 @@ public class BlackJackGame
         return false;
     }
 
+    public int onDealerPlay()
+    {
+        while(true)
+        {
+            if(dealer.getTotal() < 16)
+                deck.draw(dealer);
+
+
+        }
+    }
+
     public int onStick(BlackJackHand hand)
     {
         if (hand.getTotal() < 16)

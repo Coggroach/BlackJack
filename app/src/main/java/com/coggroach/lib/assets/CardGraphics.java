@@ -50,8 +50,8 @@ public class CardGraphics
             for(EnumCardValues value : EnumCardValues.values())
             {
                 Bitmap bitmap = assetHelper.getBitmap(suit.getName().toString() + String.valueOf(value.getId() + 1) + ".png");
+                bitmap = Bitmap.createScaledBitmap(bitmap, getWidthFraction(0.185F), getHeightFraction(0.25F), false);
                 cardSheet.add(bitmap);
-                        //Bitmap.createScaledBitmap(bitmap, getScalingFraction(0.25F), getScalingFraction(0.25F), false));
             }
         }
         cardSheet.add( Bitmap.createScaledBitmap(assetHelper.getBitmap("Background.jpg"), cardSheet.get(0).getWidth(), cardSheet.get(0).getHeight(), false ));

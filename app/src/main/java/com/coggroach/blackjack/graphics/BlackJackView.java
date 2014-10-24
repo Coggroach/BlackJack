@@ -51,31 +51,37 @@ public class BlackJackView extends View
 
         this.cardGraphics.setMaxWidth(this.getWidth());
         this.cardGraphics.setMaxHeight(this.getHeight());
-        this.cardGraphics.loadBitmaps();
 
         this.cardIndexList = new ArrayList<Integer>();
         this.wordSheet = new ArrayList<BoundBitmap>();
         this.wordIndex = -1;
 
-        Point btnPoint = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.75F));
-        Point btnPoint2 = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.85F));
-        Point lblPoint = new Point(cardGraphics.getWidthFraction(0.1F), 0);
+        Point btnPoint = new Point(cardGraphics.getWidthFraction(0.27902F), cardGraphics.getHeightFraction(0.6667F));
+        Point btnPoint2 = new Point(cardGraphics.getWidthFraction(0.27902F), cardGraphics.getHeightFraction(0.8333F));
+        Point lblPoint = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.02F));
         this.cardVector = new Vector(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.1F));
 
-        this.background = new BoundBitmap(Bitmap.createScaledBitmap(cardGraphics.getAssetHelper().getBitmap("Background.png"), this.getWidth(), this.getHeight(), false), new Point(0, 0));
-        this.btnHit = new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("ButtonHit.png"), btnPoint);
-        this.btnStick = new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("ButtonStick.png"), btnPoint2);
-        this.lblTitle = new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("Title.png"), lblPoint);
+        this.background = CreateScaledBoundBitmap("Background.png", this.getWidth(), this.getHeight(), new Point(0,0));
+        this.btnHit = CreateScaledBoundBitmap("ButtonHit.png", cardGraphics.getWidthFraction(0.44196F), cardGraphics.getHeightFraction(0.14F), btnPoint);
+        this.btnStick = CreateScaledBoundBitmap("ButtonStick.png", cardGraphics.getWidthFraction(0.44196F), cardGraphics.getHeightFraction(0.14F), btnPoint2);
+        this.lblTitle = CreateScaledBoundBitmap("Title.png", cardGraphics.getWidthFraction(0.2598F), cardGraphics.getHeightFraction(0.05F), lblPoint);
 
-        Point wPoint = new Point(cardGraphics.getWidthFraction(0.1F), cardGraphics.getHeightFraction(0.5F));
+        Point wPoint = new Point(cardGraphics.getWidthFraction(0.27902F), cardGraphics.getHeightFraction(0.5F));
 
-        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordBust.png"), wPoint));
-        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordUnder.png"), wPoint));
-        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordFinish.png"), wPoint));
+        this.wordSheet.add(CreateScaledBoundBitmap("WordBust.png", cardGraphics.getWidthFraction(0.11618F), cardGraphics.getHeightFraction(0.05F), wPoint));
+        this.wordSheet.add(CreateScaledBoundBitmap("WordUnder.png", cardGraphics.getWidthFraction(0.14804F), cardGraphics.getHeightFraction(0.05F), wPoint));
+        this.wordSheet.add(CreateScaledBoundBitmap("WordFinish.png", cardGraphics.getWidthFraction(0.140196F), cardGraphics.getHeightFraction(0.05F), wPoint));
 
-        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordLose.png"), wPoint));
-        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordDraw.png"), wPoint));
-        this.wordSheet.add(new BoundBitmap(cardGraphics.getAssetHelper().getBitmap("WordWin.png"), wPoint));
+        this.wordSheet.add(CreateScaledBoundBitmap("WordLose.png", cardGraphics.getWidthFraction(0.111275F), cardGraphics.getHeightFraction(0.05F), wPoint));
+        this.wordSheet.add(CreateScaledBoundBitmap("WordDraw.png", cardGraphics.getWidthFraction(0.14313725F), cardGraphics.getHeightFraction(0.05F), wPoint));
+        this.wordSheet.add(CreateScaledBoundBitmap("WordWin.png", cardGraphics.getWidthFraction(0.09755F), cardGraphics.getHeightFraction(0.05F), wPoint));
+
+        this.cardGraphics.loadBitmaps();
+    }
+
+    public BoundBitmap CreateScaledBoundBitmap(String s, int w, int h, Point p)
+    {
+        return new BoundBitmap(Bitmap.createScaledBitmap(cardGraphics.getAssetHelper().getBitmap(s), w, h, false), p);
     }
 
     public int getViewId(Point p)
@@ -126,7 +132,7 @@ public class BlackJackView extends View
             Bitmap card = this.cardGraphics.getCardSheet().get(this.cardIndexList.get(i).intValue());
             c.drawBitmap(card, v.getXVector(), v.getYVector(), null);
 
-            v = v.add(new Vector(120, 0));
+            v = v.add(new Vector(cardGraphics.getWidthFraction(0.1F), 0));
         }
     }
 

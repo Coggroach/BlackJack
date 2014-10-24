@@ -69,7 +69,7 @@ public class BlackJackActivity extends Activity
                 view.setDrawHand(game.getPlayer());
                 break;
             default:
-                //view.setWordIndex(-1);
+                view.setWordIndex(-1);
                 break;
         }
     }
